@@ -1,0 +1,36 @@
+{
+  "id": "prometheus",
+  "instances": 1,
+  "cpus": 1.0,
+  "mem": 512.0,
+  "acceptedResourceRoles": ["*"],
+  "maintainer": "hello@buoyant.io",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "buoyantio/linkerd-viz:sigtest",
+      "forcePullImage": true,
+      "network": "HOST",
+      "privileged": true
+    }
+  },
+  "args": ["dcos", "prometheus"],
+  "healthChecks": [
+    {
+      "protocol": "HTTP",
+      "portIndex": 0,
+      "path": "/"
+    }
+  ],
+  "portDefinitions": [
+    {
+      "port": 9090,
+      "protocol": "tcp",
+      "name": "stats"
+    }
+  ],
+  "requirePorts": true,
+  "env": {
+    "STATS_PORT": "9090"
+  }
+}
